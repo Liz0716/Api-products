@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/liz/Documents/Propietarios/ApiProducts/ApiProducts.csproj": {}
+    "/Users/huldadanielacrisantoluna/Documents/propietarios/12vo/proyecto api/Api-products/ApiProducts.csproj": {}
   },
   "projects": {
-    "/Users/liz/Documents/Propietarios/ApiProducts/ApiProducts.csproj": {
+    "/Users/huldadanielacrisantoluna/Documents/propietarios/12vo/proyecto api/Api-products/ApiProducts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/liz/Documents/Propietarios/ApiProducts/ApiProducts.csproj",
+        "projectUniqueName": "/Users/huldadanielacrisantoluna/Documents/propietarios/12vo/proyecto api/Api-products/ApiProducts.csproj",
         "projectName": "ApiProducts",
-        "projectPath": "/Users/liz/Documents/Propietarios/ApiProducts/ApiProducts.csproj",
-        "packagesPath": "/Users/liz/.nuget/packages/",
-        "outputPath": "/Users/liz/Documents/Propietarios/ApiProducts/obj/",
+        "projectPath": "/Users/huldadanielacrisantoluna/Documents/propietarios/12vo/proyecto api/Api-products/ApiProducts.csproj",
+        "packagesPath": "/Users/huldadanielacrisantoluna/.nuget/packages/",
+        "outputPath": "/Users/huldadanielacrisantoluna/Documents/propietarios/12vo/proyecto api/Api-products/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/liz/.nuget/NuGet/NuGet.Config"
+          "/Users/huldadanielacrisantoluna/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -71,7 +71,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.409/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
