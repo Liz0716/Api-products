@@ -50,7 +50,7 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado:
 
 3. **JWT**
 
-   * En el mismo archivo `appsettings.Development.json`, define tu clave secreta para firmar los tokens:
+   * En el mismo archivo `appsettings.json`, define tu clave secreta para firmar los tokens:
 
      ```json
      "Jwt": {
