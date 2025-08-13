@@ -1,9 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "ZQLsnrRlR7Q=",
+=======
+  "dgSpecHash": "VGJ66bjhzmA=",
+>>>>>>> a48388ce03841a1653c1164ff4a4afdaec125407
   "success": true,
-  "projectFilePath": "/Users/liz/Documents/Propietarios/ApiProducts/ApiProducts.csproj",
+  "projectFilePath": "/Users/huldadanielacrisantoluna/Documents/propietarios/12vo/proyecto api/Api-products/ApiProducts.csproj",
   "expectedPackageFiles": [
+<<<<<<< HEAD
     "/Users/liz/.nuget/packages/azure.core/1.38.0/azure.core.1.38.0.nupkg.sha512",
     "/Users/liz/.nuget/packages/azure.identity/1.11.4/azure.identity.1.11.4.nupkg.sha512",
     "/Users/liz/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
@@ -90,6 +95,15 @@
     "/Users/liz/.nuget/packages/system.threading.channels/7.0.0/system.threading.channels.7.0.0.nupkg.sha512",
     "/Users/liz/.nuget/packages/system.threading.tasks.extensions/4.5.4/system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "/Users/liz/.nuget/packages/system.windows.extensions/6.0.0/system.windows.extensions.6.0.0.nupkg.sha512"
+=======
+    "/Users/huldadanielacrisantoluna/.nuget/packages/microsoft.aspnetcore.openapi/8.0.16/microsoft.aspnetcore.openapi.8.0.16.nupkg.sha512",
+    "/Users/huldadanielacrisantoluna/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "/Users/huldadanielacrisantoluna/.nuget/packages/microsoft.openapi/1.6.14/microsoft.openapi.1.6.14.nupkg.sha512",
+    "/Users/huldadanielacrisantoluna/.nuget/packages/swashbuckle.aspnetcore/6.6.2/swashbuckle.aspnetcore.6.6.2.nupkg.sha512",
+    "/Users/huldadanielacrisantoluna/.nuget/packages/swashbuckle.aspnetcore.swagger/6.6.2/swashbuckle.aspnetcore.swagger.6.6.2.nupkg.sha512",
+    "/Users/huldadanielacrisantoluna/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.6.2/swashbuckle.aspnetcore.swaggergen.6.6.2.nupkg.sha512",
+    "/Users/huldadanielacrisantoluna/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.6.2/swashbuckle.aspnetcore.swaggerui.6.6.2.nupkg.sha512"
+>>>>>>> a48388ce03841a1653c1164ff4a4afdaec125407
   ],
   "logs": []
 }
