@@ -68,7 +68,7 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado:
 1. **Clonar el repositorio**
 
    ```bash
-   git clone https://github.com/tuusuario/Api-products.git](https://github.com/Liz0716/Api-products.git
+   git clone https://github.com/Liz0716/Api-products.git
    cd Api-products
    ```
 
