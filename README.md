@@ -73,6 +73,7 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado:
 5. **Ejecutar las migraciones de la base de datos**
 
    ```bash
+   dotnet ef migrations add InitialCreate
    dotnet ef database update
    ```
 
