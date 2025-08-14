@@ -21,7 +21,7 @@ namespace ApiProducts.Controllers
         public async Task<IActionResult> Register([FromBody] Users userDto)
         {
             if (await _context.Users.AnyAsync(u => u.Email == userDto.Email))
-                return BadRequest("El correo ya está registrado");
+                return BadRequest("El correo ya esta registrado");
 
             var user = new Users
             {
@@ -46,7 +46,7 @@ namespace ApiProducts.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password))
-                return Unauthorized("Credenciales inválidas");
+                return Unauthorized("Credenciales invalidas");
 
             var accessToken = _jwtService.GenerateAccessToken(user);
 
