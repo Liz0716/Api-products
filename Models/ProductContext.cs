@@ -15,5 +15,13 @@ public class ProductContext : DbContext
     public DbSet<Orders> Orders { get; set; }
     public DbSet<OrdersItem> OrderItem { get; set; }
     
+      protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Rol>().HasData(
+            new Rol { Id = 1, Name = "Admin" }
+        );
+    }
 
 }
