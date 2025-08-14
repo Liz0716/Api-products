@@ -63,8 +63,6 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado:
     }
      ```
 
----
-
 ## Pasos para correr la API
 
 1. **Clonar el repositorio**
