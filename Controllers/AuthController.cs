@@ -36,8 +36,9 @@ namespace ApiProducts.Controllers
             await _context.SaveChangesAsync();
 
             var accessToken = _jwtService.GenerateAccessToken(user);
+            return Created("api/auth/register", new { accessToken });
 
-            return Ok(new { accessToken });
+            
         }
 
         [HttpPost("login")]

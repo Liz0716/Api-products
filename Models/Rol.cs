@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,6 +11,7 @@ public class Rol
 
     public int Id { get; set; }
 
+    [DefaultValue("Admin")]
     public string? Name { get; set; }
 
 }
