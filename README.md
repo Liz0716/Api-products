@@ -1,5 +1,3 @@
-
-
 # API-Products
 
 API para la gestión de productos, desarrollada en **.NET 8.0.16** con base de datos **SQL Server** desplegada en contenedor **Docker**.
@@ -18,50 +16,12 @@ API para la gestión de productos, desarrollada en **.NET 8.0.16** con base de d
 
 Antes de ejecutar el proyecto, asegúrate de tener instalado:
 
+* **Git**
 * **Docker Desktop** (^4.41 o superior)
 * **.NET SDK 8.0.16** o superior
-* **Git**
 * **Postman** (opcional, para pruebas manuales)
 
 ---
-
-## Configuración
-
-1. **Base de datos**
-
-   * El proyecto incluye un archivo `docker-compose.yml` para levantar un contenedor de SQL Server.
-   * Para iniciar la base de datos:
-
-     ```bash
-     docker-compose up -d
-     ```
-   * Esto creará un contenedor con SQL Server en el puerto `1433`.
-
-2. **Connection String**
-
-   * La cadena de conexión se encuentra en `appsettings.json`:
-
-     ```json
-     {
-       "ConnectionStrings": {
-         "StoreConnection": "Server=localhost,1433;Database=ProductDb;User Id=SA;Password=TuPassword123!;TrustServerCertificate=True"
-       }
-     }
-     ```
-   * Cambia `TuPasswordSegura` por una contraseña segura (y actualízala también en `docker-compose.yml` si es necesario).
-
-3. **JWT**
-
-   * En el mismo archivo `appsettings.json`, define tu clave secreta para firmar los tokens:
-
-     ```json
-      "Jwt": {
-      "Issuer": "TechOrdersApi",
-      "Audience": "TechOrdersClients",
-      "Key": "r9ZtM5pXk7wQeL2uF6JcNvYb8HtRuC1ohjklfghjklnhugctcgvhbhvu",
-      "AccessTokenMinutes": 14400
-    }
-     ```
 
 ## Pasos para correr la API
 
@@ -72,67 +32,110 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado:
    cd Api-products
    ```
 
-2. **Levantar la base de datos con Docker**
+2. **Configurar la base de datos**
+
+   * El proyecto incluye un archivo `docker-compose.yml` para levantar SQL Server.
+   * Cambia la contraseña en `docker-compose.yml` y posteriormente en `appsettings.json` si quieres personalizarla.
+
+3. **Levantar la base de datos con Docker**
 
    ```bash
-   docker-compose up -d
+   docker compose up -d
    ```
 
-3. **Ejecutar las migraciones de la base de datos** **Pendiente a revisar si haremos migraciones**
+   * Esto creará un contenedor con SQL Server en el puerto `1433`.
+
+4. **Configurar `appsettings.json`**
+
+   * Cadena de conexión:
+
+     ```json
+     {
+       "ConnectionStrings": {
+         "StoreConnection": "Server=localhost,1433;Database=ProductDb;User Id=SA;Password=TuPassword123!;TrustServerCertificate=True"
+       }
+     }
+     ```
+
+   * JWT:
+
+     ```json
+     "Jwt": {
+       "Issuer": "TechOrdersApi",
+       "Audience": "TechOrdersClients",
+       "Key": "r9ZtM5pXk7wQeL2uF6JcNvYb8HtRuC1ohjklfghjklnhugctcgvhbhvu",
+       "AccessTokenMinutes": 14400
+     }
+     ```
+
+   > Cambia `TuPassword123!` y `Key` por valores seguros.
+
+5. **Ejecutar las migraciones de la base de datos**
 
    ```bash
    dotnet ef database update
    ```
 
-4. **Ejecutar la API**
+6. **Ejecutar la API**
 
    ```bash
+   dotnet build
    dotnet run
    ```
 
-   La API estará disponible en: **Pendiente**
+   La API estará disponible en:
 
-   * `https://localhost:` (HTTPS)
-   * `http://localhost:` (HTTP)
+   * `http://localhost:5147` (HTTP)
 
 ---
 
-## Pruebas con Postman **Pendiente**
+## Pruebas con Postman
 
 1. **Importar la colección**
 
-   * En la carpeta `/postman` del repositorio (crea esta carpeta y coloca un archivo `.json` con la colección de Postman exportada), encontrarás la colección lista para importar en Postman.
+   * En la carpeta `/Postman` del repositorio encontrarás la colección lista para importar en Postman.
 
 2. **Configurar variables de entorno**
 
-   * `baseUrl` → `https://localhost:5001`
+   * `baseUrl` → `https://localhost:5147`
    * `token` → Se actualizará automáticamente tras iniciar sesión en la API.
 
-3. **Flujo recomendado de prueba** **Pendiente si las rutas quedan asi**
+3. **Flujo recomendado de prueba**
 
-   1. **Registrar usuario** (`POST /api/auth/register`)
-   2. **Iniciar sesión** (`POST /api/auth/login`) → Copiar token JWT al entorno de Postman
-   3. **Probar endpoints protegidos** como creación, actualización y eliminación de productos (`/api/products`)
+   1. Registrar usuario (`POST /api/auth/register`)
+   2. Iniciar sesión (`POST /api/auth/login`) → Copiar token JWT al entorno de Postman
+   3. Probar endpoints protegidos como creación, actualización, lectura y eliminación de productos (`/api/products`)
 
 ---
 
 ## Estructura del proyecto
 
 ```
-Api-products/
-├── Api-products.csproj
-├── Controllers/
-├── Models/
-├── Services/
-├── Data/
+ApiProducts/
+├── ApiProducts.csproj
+├── ApiProducts.sln
 ├── appsettings.json
 ├── appsettings.Development.json
 ├── docker-compose.yml
-└── README.md
+├── README.md
+├── Controllers/
+│   └── AuthController.cs
+├── Models/
+│   ├── Auth.cs
+│   ├── OrderItems.cs
+│   ├── Orders.cs
+│   ├── ProductContext.cs
+│   ├── Products.cs
+│   ├── Rol.cs
+│   └── Users.cs
+├── Services/
+│   └── JwtService.cs
+├── Migrations/
+└── Postman/
 ```
 
 ---
 
 ## Licencia
+
 **Pendiente**
----
