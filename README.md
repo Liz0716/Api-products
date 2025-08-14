@@ -39,7 +39,7 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado:
 
 2. **Connection String**
 
-   * La cadena de conexión se encuentra en `appsettings.Development.json`:
+   * La cadena de conexión se encuentra en `appsettings.json`:
 
      ```json
      "ConnectionStrings": {
