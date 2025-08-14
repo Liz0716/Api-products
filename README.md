@@ -42,9 +42,11 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado:
    * La cadena de conexión se encuentra en `appsettings.json`:
 
      ```json
-    "ConnectionStrings": {
-    "StoreConnection": "Server=localhost,1433;Database=ProductDb;User Id=SA;Password=TuPassword123!;TrustServerCertificate=True"
-  }
+     {
+       "ConnectionStrings": {
+         "StoreConnection": "Server=localhost,1433;Database=ProductDb;User Id=SA;Password=TuPassword123!;TrustServerCertificate=True"
+       }
+     }
      ```
    * Cambia `TuPasswordSegura` por una contraseña segura (y actualízala también en `docker-compose.yml` si es necesario).
 
