@@ -42,9 +42,9 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado:
    * La cadena de conexión se encuentra en `appsettings.json`:
 
      ```json
-     "ConnectionStrings": {
-       "DefaultConnection": "**pendiente**"
-     }
+    "ConnectionStrings": {
+    "StoreConnection": "Server=localhost,1433;Database=ProductDb;User Id=SA;Password=TuPassword123!;TrustServerCertificate=True"
+  }
      ```
    * Cambia `TuPasswordSegura` por una contraseña segura (y actualízala también en `docker-compose.yml` si es necesario).
 
@@ -53,11 +53,12 @@ Antes de ejecutar el proyecto, asegúrate de tener instalado:
    * En el mismo archivo `appsettings.json`, define tu clave secreta para firmar los tokens:
 
      ```json
-     "Jwt": {
-       "Key": "**configurar aqui la clave secreta**",
-       "Issuer": "ApiProducts",
-       "Audience": "ApiProductsUsers"
-     }
+      "Jwt": {
+      "Issuer": "TechOrdersApi",
+      "Audience": "TechOrdersClients",
+      "Key": "r9ZtM5pXk7wQeL2uF6JcNvYb8HtRuC1ohjklfghjklnhugctcgvhbhvu",
+      "AccessTokenMinutes": 14400
+    }
      ```
 
 ---
