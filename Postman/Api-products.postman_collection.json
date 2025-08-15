@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "36e186ba-5b9a-4388-abcf-43422e37e4a6",
+		"_postman_id": "828ecb55-291e-4e22-b81e-e918b91fe22a",
 		"name": "Api-products",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "37089042"
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "31248679"
 	},
 	"item": [
 		{
@@ -23,15 +23,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{baseUrl}}auth/register",
-							"host": [
-								"{{baseUrl}}auth"
-							],
-							"path": [
-								"register"
-							]
-						}
+						"url": "{{baseUrl}}auth/register"
 					},
 					"response": []
 				},
@@ -61,15 +53,7 @@
 								}
 							}
 						},
-						"url": {
-							"raw": "{{baseUrl}}auth/login",
-							"host": [
-								"{{baseUrl}}auth"
-							],
-							"path": [
-								"login"
-							]
-						}
+						"url": "{{baseUrl}}auth/login"
 					},
 					"response": []
 				}
