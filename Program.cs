@@ -15,6 +15,10 @@ builder.Services.AddDbContext<ProductContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("StoreConnection"));
 });
 
+//products
+builder.Services.AddScoped<ProductService>();
+
+
 // jwt
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 builder.Services.AddScoped<JwtService>();
