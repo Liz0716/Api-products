@@ -1,0 +1,627 @@
+{
+	"info": {
+		"_postman_id": "828ecb55-291e-4e22-b81e-e918b91fe22a",
+		"name": "Proyecto: TechOrders",
+		"description": "Esta colección contiene los endpoints para probar la API REST desarrollada en .NET para la empresa **TechOrders**, dedicada a la venta de productos en línea. La API permite gestionar usuarios, productos y pedidos de forma segura, utilizando autenticación JWT y almacenando la información en SQL Server.\n\n### Estructura de la colección\n\nLa colección está organizada en dos carpetas principales:\n\n- **Auth**: Endpoints para registro y login de usuarios.\n    \n- **Products**: Endpoints para CRUD de productos.\n    \n\n### Autenticación\n\nLa API utiliza **JWT** para proteger los endpoints. Debes iniciar sesión con el endpoint `/api/auth/login` y el token recibido en la variable `token` del environment se asignara de forma automatica.\n\n**Variables configuradas:**\n\n- `baseUrl`: URL base de la API (ej. `http://localhost:5147`)\n    \n- `token`: Token JWT generado al iniciar sesión\n    \n\n### Pruebas incluidas\n\nLa colección incluye pruebas para los siguientes casos:\n\n- Registro de usuario\n    \n- Login y obtención de token\n    \n- Creación, consulta, actualización y eliminación de productos\n    \n- Casos negativos\n    \n\n### Requisitos para ejecutar\n\n- API corriendo en .NET (.NET 6 o superior)\n    \n- Base de datos SQL Server con tablas: `Users`, `Roles`, `Products`, `Orders`, `OrderItems`\n    \n- Configuración de JWT en el `appsettings.json`",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "31248679"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "SignUp",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Devuelve un estatus 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"La respuesta incluye el token\", function(){",
+									"    pm.response.to.have.jsonBody('accessToken');",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Name\":\"Jorge Alejandro\",\n    \"Email\": \"dust@gmail.com\",\n    \"Password\": \"12121212\",\n    \"Status\": true,\n    \"RolId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/api/auth/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Correo duplicado",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Devuelve un estatus 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"La respuesta incluye un mensaje de error\", function(){",
+									"    const responseData = pm.response.text();",
+									"    pm.expect(responseData).to.include(\"El correo ya esta registrado\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Name\": \"Jorge Alejandro\",\n    \"Email\": \"dust@gmail.com\",\n    \"Password\": \"12121212\",\n    \"Status\": true,\n    \"RolId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/api/auth/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Registro de usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Devuelve un estatus 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"La respuesta incluye el token\", function(){",
+									"    pm.response.to.have.jsonBody('accessToken');",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Name\":\"Daniela Crisanto\",\n    \"Email\": \"daniela2002@gmail.com\",\n    \"Password\": \"0987654321\",\n    \"Status\": true,\n    \"RolId\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/api/auth/register"
+					},
+					"response": []
+				},
+				{
+					"name": "Login de Administrador",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Devuelve un estatus 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"La respuesta incluye el token\", function(){",
+									"    pm.response.to.have.jsonBody('accessToken');",
+									"})",
+									"",
+									"pm.collectionVariables.set(\"accessToken\", pm.response.json().accessToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYW5pZWxhIiwic2NvcGUiOiJteWFwaTpzZWNyZXRzIiwiZXhwIjoxNzU0MzY0MzQ5LCJpc3MiOiJQb3dlclJhbmdlcnNBcHAiLCJhdWQiOiJBUElSYW5nZXIifQ.fy5Hnm8EttIfYyI1txGEq53fieeDAdtUGSvKUmoy1aI"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Email\": \"dust@gmail.com\",\n    \"Password\": \"12121212\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/api/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Login de Usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Devuelve un estatus 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"La respuesta incluye el token\", function(){",
+									"    pm.response.to.have.jsonBody('accessToken');",
+									"})",
+									"",
+									"pm.collectionVariables.set(\"accessToken\", pm.response.json().accessToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkYW5pZWxhIiwic2NvcGUiOiJteWFwaTpzZWNyZXRzIiwiZXhwIjoxNzU0MzY0MzQ5LCJpc3MiOiJQb3dlclJhbmdlcnNBcHAiLCJhdWQiOiJBUElSYW5nZXIifQ.fy5Hnm8EttIfYyI1txGEq53fieeDAdtUGSvKUmoy1aI"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Email\": \"daniela2002@gmail.com\",\n    \"Password\": \"0987654321\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/api/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Login fallido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Devuelve un estatus 401 de acceso no autorizado\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"La respuesta incluye un mensaje de error\", function(){",
+									"    const responseData = pm.response.text();",
+									"    pm.expect(responseData).to.include(\"Credenciales invalidas\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Email\": \"marcos@gmail.com\",\n    \"Password\": \"abcd1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/api/auth/login"
+					},
+					"response": []
+				}
+			],
+			"description": "Esta carpeta contiene los endpoints relacionados con la autenticación de usuarios en el sistema TechOrders. Aquí podrás registrar nuevos usuarios y generar tokens JWT para acceder a los endpoints protegidos.\n\nLos roles disponibles son:\n\n- **Administrador**: Tiene acceso completo a la gestión de productos y pedidos.\n    \n- **Usuario**: Puede consultar productos y crear pedidos propios.\n    \n\nAntes de acceder a cualquier endpoint protegido, debes iniciar sesión y el token JWT en la variable `token` del environment se asignara automaticamente."
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Lista de productos vacia",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"No hay productos en la base de datos\", function () {",
+									"    pm.response.to.have.status(404);",
+									"    pm.expect(pm.response.text()).to.include(\"No hay productos en la base de datos.\");",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSm9yZ2UgQWxlamFuZHJvIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZHVzdEBnbWFpbC5jb20iLCJleHAiOjE3NTYyNzU1NzAsImlzcyI6IlRlY2hPcmRlcnNBcGkiLCJhdWQiOiJUZWNoT3JkZXJzQ2xpZW50cyJ9.fIUOcCneV_K31xFR9i-GQwexo6ZRdhJ3jdOez74qAcI"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/api/products"
+					},
+					"response": []
+				},
+				{
+					"name": "Creación de un producto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Devuelve un estatus 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"})",
+									"",
+									"pm.test(\"Devuelve un JSON con la informacion del producto\", function () {",
+									"    pm.response.to.be.json;",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSm9yZ2UgQWxlamFuZHJvIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZHVzdEBnbWFpbC5jb20iLCJleHAiOjE3NTYyNzU1NzAsImlzcyI6IlRlY2hPcmRlcnNBcGkiLCJhdWQiOiJUZWNoT3JkZXJzQ2xpZW50cyJ9.fIUOcCneV_K31xFR9i-GQwexo6ZRdhJ3jdOez74qAcI"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Audifonos Sony\",\n    \"description\": \"Tiene cancelacion de ruido\",\n    \"price\": 800,\n    \"stock\": 50,\n    \"status\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/api/products"
+					},
+					"response": []
+				},
+				{
+					"name": "Lista de productos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Devuelve un estatus 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test(\"Devuelve un array de productos\", function () {",
+									"    pm.response.to.be.json;",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSm9yZ2UgQWxlamFuZHJvIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZHVzdEBnbWFpbC5jb20iLCJleHAiOjE3NTYyNzU1NzAsImlzcyI6IlRlY2hPcmRlcnNBcGkiLCJhdWQiOiJUZWNoT3JkZXJzQ2xpZW50cyJ9.fIUOcCneV_K31xFR9i-GQwexo6ZRdhJ3jdOez74qAcI"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/api/products"
+					},
+					"response": []
+				},
+				{
+					"name": "Ver datos de un producto inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Devuleve un estatus 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"})",
+									"",
+									"pm.test(\"Devuleve un mensaje 'No se encontro el producto'\", function () {",
+									"    const responseData = pm.response.text();",
+									"    pm.expect(responseData).to.include(\"No se encontró un producto\");",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSm9yZ2UgQWxlamFuZHJvIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZHVzdEBnbWFpbC5jb20iLCJleHAiOjE3NTYyNzU1NzAsImlzcyI6IlRlY2hPcmRlcnNBcGkiLCJhdWQiOiJUZWNoT3JkZXJzQ2xpZW50cyJ9.fIUOcCneV_K31xFR9i-GQwexo6ZRdhJ3jdOez74qAcI"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Audifonos Sony\",\n    \"description\": \"Tiene cancelacion de ruido\",\n    \"price\": 800,\n    \"stock\": 50,\n    \"status\": true\n}"
+						},
+						"url": "{{baseUrl}}/api/products/999"
+					},
+					"response": []
+				},
+				{
+					"name": "Ver datos de un producto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Devuleve un estatus 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test(\"Devuleve un JSON con la información del producto consultado\", function () {",
+									"    pm.response.to.be.json;",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSm9yZ2UgQWxlamFuZHJvIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZHVzdEBnbWFpbC5jb20iLCJleHAiOjE3NTYyNzU1NzAsImlzcyI6IlRlY2hPcmRlcnNBcGkiLCJhdWQiOiJUZWNoT3JkZXJzQ2xpZW50cyJ9.fIUOcCneV_K31xFR9i-GQwexo6ZRdhJ3jdOez74qAcI"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{baseUrl}}/api/products/2"
+					},
+					"response": []
+				},
+				{
+					"name": "El ID de la URL no coincide con el body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Devuelve un estaus 400 y el mensaje de error correspondiente\", function(){",
+									"    pm.response.to.have.status(400);",
+									"    pm.expect(pm.response.text()).to.include(\"El Id del producto no coincide con el parámetro de la URL.\");",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSm9yZ2UgQWxlamFuZHJvIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZHVzdEBnbWFpbC5jb20iLCJleHAiOjE3NTYyNzU1NzAsImlzcyI6IlRlY2hPcmRlcnNBcGkiLCJhdWQiOiJUZWNoT3JkZXJzQ2xpZW50cyJ9.fIUOcCneV_K31xFR9i-GQwexo6ZRdhJ3jdOez74qAcI"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2,\n    \"name\": \"Audifonos Skullcandy\",\n    \"description\": \"Tiene cancelacion de ruido\",\n    \"price\": 600,\n    \"stock\": 40,\n    \"status\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/api/products/999"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar datos de un producto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Devuelve un estaus 204 y sin respuesta\", function(){",
+									"    pm.response.to.have.status(204);",
+									"    pm.expect(pm.response.text()).to.eql(''); ",
+									"})",
+									"",
+									"if (pm.response.code !== 204) {",
+									"    pm.test(\"El id de la URL coincide con la del body\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        var urlId = pm.request.url.variables.get(\"id\");",
+									"        pm.expect(jsonData.id).to.eql(parseInt(urlId));",
+									"    });",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSm9yZ2UgQWxlamFuZHJvIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZHVzdEBnbWFpbC5jb20iLCJleHAiOjE3NTYyNzU1NzAsImlzcyI6IlRlY2hPcmRlcnNBcGkiLCJhdWQiOiJUZWNoT3JkZXJzQ2xpZW50cyJ9.fIUOcCneV_K31xFR9i-GQwexo6ZRdhJ3jdOez74qAcI"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2,\n    \"name\": \"Audifonos Skullcandy\",\n    \"description\": \"Tiene cancelacion de ruido\",\n    \"price\": 600,\n    \"stock\": 40,\n    \"status\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/api/products/2"
+					},
+					"response": []
+				},
+				{
+					"name": "El ID de la URL no existe",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Devuelve un estaus 404 y el mensaje de error correspondiente\", function(){",
+									"    pm.response.to.have.status(404);",
+									"    pm.expect(pm.response.text()).to.include(\"No se encontró un producto con Id \");",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSm9yZ2UgQWxlamFuZHJvIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZHVzdEBnbWFpbC5jb20iLCJleHAiOjE3NTYyNzU1NzAsImlzcyI6IlRlY2hPcmRlcnNBcGkiLCJhdWQiOiJUZWNoT3JkZXJzQ2xpZW50cyJ9.fIUOcCneV_K31xFR9i-GQwexo6ZRdhJ3jdOez74qAcI"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2,\n    \"name\": \"Audifonos Skullcandy\",\n    \"description\": \"Tiene cancelacion de ruido\",\n    \"price\": 600,\n    \"stock\": 40,\n    \"status\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/api/products/999"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Devuelve un estaus 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSm9yZ2UgQWxlamFuZHJvIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiZHVzdEBnbWFpbC5jb20iLCJleHAiOjE3NTYyNzU1NzAsImlzcyI6IlRlY2hPcmRlcnNBcGkiLCJhdWQiOiJUZWNoT3JkZXJzQ2xpZW50cyJ9.fIUOcCneV_K31xFR9i-GQwexo6ZRdhJ3jdOez74qAcI"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "{{baseUrl}}/api/products/3"
+					},
+					"response": []
+				}
+			],
+			"description": "Esta carpeta agrupa todos los endpoints relacionados con la gestión de productos.\n\nIncluye operaciones CRUD para productos (solo accesibles por Administradores) y creación/consulta de pedidos (accesibles por cualquier usuario autenticado).\n\nLas funcionalidades cubiertas son:\n\n- Listado, creación, edición y eliminación de productos.\n    \n\nRecuerda que todos los endpoints en esta carpeta requieren autenticación mediante JWT. Asegúrate de tener el token configurado en la variable `token` del environment antes de ejecutar las solicitudes."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "localhost:5147",
+			"type": "string"
+		},
+		{
+			"key": "accessToken",
+			"value": ""
+		}
+	]
+}

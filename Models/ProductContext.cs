@@ -14,13 +14,14 @@ public class ProductContext : DbContext
     public DbSet<Products> Products { get; set; }
     public DbSet<Orders> Orders { get; set; }
     public DbSet<OrdersItem> OrderItem { get; set; }
-    
-      protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Rol>().HasData(
-            new Rol { Id = 1, Name = "Admin" }
+            new Rol { Id = 1, Name = "Admin" },
+            new Rol { Id = 2, Name = "User" }
         );
     }
 

@@ -11,7 +11,7 @@ public class Rol
 
     public int Id { get; set; }
 
-    [DefaultValue("Admin")]
+    [DefaultValue("User")]
     public string? Name { get; set; }
 
 }

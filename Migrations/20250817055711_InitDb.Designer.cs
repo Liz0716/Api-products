@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiProducts.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    [Migration("20250813211049_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250817055711_InitDb")]
+    partial class InitDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,30 +23,6 @@ namespace ApiProducts.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("ApiProducts.Models.Auth", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Token")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TokenExpiration")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Auths");
-                });
 
             modelBuilder.Entity("ApiProducts.Models.Orders", b =>
                 {
@@ -146,6 +122,18 @@ namespace ApiProducts.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Rols");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "User"
+                        });
                 });
 
             modelBuilder.Entity("ApiProducts.Models.Users", b =>
@@ -176,17 +164,6 @@ namespace ApiProducts.Migrations
                     b.HasIndex("RolId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("ApiProducts.Models.Auth", b =>
-                {
-                    b.HasOne("ApiProducts.Models.Users", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ApiProducts.Models.Orders", b =>
